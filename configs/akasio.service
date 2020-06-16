@@ -1,0 +1,16 @@
+[Unit]
+Description=Akasio (JSON-based redirecting server)
+After=syslog.target
+After=network.target
+
+[Service]
+RestartSec=2s
+Type=simple
+User=nobody
+Group=nobody
+WorkingDirectory=/etc
+ExecStart=/usr/local/bin/akasio -r /etc/redirect.json
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
