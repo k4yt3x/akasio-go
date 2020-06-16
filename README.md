@@ -2,15 +2,23 @@
 
 Akasio is a simple HTTP server that redirects traffic based on a JSON redirect table.
 
-**This page is still under construction.**
+## Why Akasio
+
+> What can this be used for?
+
+Personally, I find sending long URLs like `https://gist.githubusercontent.com/k4yt3x/3b41a1a65f5d3087133e449793eb8858/raw` to people pretty annoying, since you'll either have to copy and paste the whole URL or type the whole URL out. URL shorteners like Akasio solve this issue. All that's needed to be done to send such a long URL is just to create a new mapping in the redirect table.
+
+> What are Akasio's benefits compared to services like bit.ly?
+
+It is self-hosted, and the redirect table is just a JSON file. This gives the users lots of flexibilities. The JSON file on the server can be symbolic-linked from a local workstation, updated by a front-end webpage, generated from a program, and so on.
 
 ## Usages
 
-This section covers the basic usages for Akasio.
+This section covers Akasio's fundamental concepts, basic usages and setup guide.
 
 ### Redirect Table
 
-Akasio redirects incoming requests based on what's called a "redirect table". This table is essentially a JSON file with a simple source-to-target mapping. You can find an example `akasio.json` under the `configs` directory.
+Akasio redirects incoming requests based on what's called a "redirect table". This table is essentially a JSON file with a simple source-to-target mapping. You can find an example `akasio.json` under the `configs` directory. By default, Akasio reads the redirect table from `/etc/akasio.json`.
 
 ```json
 {
@@ -30,11 +38,11 @@ Taking the `/g` mapping for example, when a user visits `https://yourwebsite.com
 
 ### Website Setup
 
-The recommended setup is to start Akasio as a service behind reverse proxy web server like Apache, Nginx or Caddy.
+The recommended setup is to start Akasio as a service behind reverse proxy web server like Apache, Nginx or Caddy. You can find an example service file at `configs/akasio.service`.
 
-You can find an example service file at `configs/akasio.service`. To install Akasio as a service, do the following.
+A typical stand-alone setup process will look like the following.
 
-1. Build the `akasio` binary or download the `akasio` binary from [releases](https://github.com/k4yt3x/akasio-go/releases) (**TBD**).
+1. Build the `akasio` binary or download the `akasio` binary from [releases](https://github.com/k4yt3x/akasio-go/releases).
 1. Move the `akasio` binary to `/usr/local/bin/akasio`.
 1. Move the service file to `/etc/systemd/system/akasio.service`.
 1. Reload systemd with `systemctl daemon-reload`.
@@ -42,7 +50,7 @@ You can find an example service file at `configs/akasio.service`. To install Aka
 1. Verify that the service has been started successfully via `curl -v 127.0.0.1:8000`.
 1. Configure front-end web server to reverse proxy to http://127.0.0.1:8000.
 
-## Binary Usages
+### Binary Usages
 
 The binary's usage is as following. You can also invoke `akasio -h` to see the usages.
 
