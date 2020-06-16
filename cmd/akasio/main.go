@@ -30,10 +30,10 @@ const (
 )
 
 // define command line flags
-var redirectTablePath = flag.String("r", "/etc/redirect.json", "redirect table path")
-var hostname = flag.String("n", "akas.io", "server hostname")
-var debug = flag.Bool("d", false, "enable debugging mode, which disables security checks")
 var bindAddress = flag.String("b", "127.0.0.1:8080", "binding address (IP:port)")
+var debug = flag.Bool("d", false, "enable debugging mode, which disables security checks")
+var hostname = flag.String("n", "akas.io", "server hostname")
+var redirectTablePath = flag.String("r", "/etc/redirect.json", "redirect table path")
 
 // readRedirectTable returns the target URL the URI corresponds to
 func readRedirectTable(uri string) (string, error) {
