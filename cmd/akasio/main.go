@@ -23,7 +23,7 @@ import (
 
 const (
 	// Version defines the version number of this application
-	Version = "1.0.1"
+	Version = "1.0.0"
 )
 
 // define command line flags
