@@ -10,7 +10,7 @@ This section covers the basic usages for Akasio.
 
 ### Redirect Table
 
-Akasio redirects incoming requests based on what's called a "redirect table". This table is essentially a JSON file with a simple source-to-target mapping. You can find an example `redirect.json` under the `configs` directory.
+Akasio redirects incoming requests based on what's called a "redirect table". This table is essentially a JSON file with a simple source-to-target mapping. You can find an example `akasio.json` under the `configs` directory.
 
 ```json
 {
@@ -39,8 +39,8 @@ You can find an example service file at `configs/akasio.service`. To install Aka
 1. Move the service file to `/etc/systemd/system/akasio.service`.
 1. Reload systemd with `systemctl daemon-reload`.
 1. Enable and start the service with `systemctl enable --now akasio`.
-1. Verify that the service has been started successfully via `curl -v 127.0.0.1:8080`.
-1. Configure front-end web server to reverse proxy to http://127.0.0.1:8080.
+1. Verify that the service has been started successfully via `curl -v 127.0.0.1:8000`.
+1. Configure front-end web server to reverse proxy to http://127.0.0.1:8000.
 
 ## Binary Usages
 
@@ -54,7 +54,7 @@ Usages:
   -n string
         server hostname (default "akas.io")
   -r string
-        redirect table path (default "/etc/redirect.json")
+        redirect table path (default "/etc/akasio.json")
 ```
 
 ## Building From Source

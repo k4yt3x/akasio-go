@@ -7,9 +7,9 @@ After=network.target
 RestartSec=2s
 Type=simple
 User=nobody
-Group=nobody
+Group=nogroup
 WorkingDirectory=/etc
-ExecStart=/usr/local/bin/akasio -r /etc/redirect.json
+ExecStart=/usr/local/bin/akasio -r /etc/akasio.json
 Restart=always
 
 [Install]

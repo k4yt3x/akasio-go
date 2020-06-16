@@ -24,16 +24,13 @@ import (
 const (
 	// Version defines the version number of this application
 	Version = "1.0.1"
-
-	// Hostname defines the hostname of the server
-	Hostname = "akas.io"
 )
 
 // define command line flags
-var bindAddress = flag.String("b", "127.0.0.1:8080", "binding address (IP:port)")
+var bindAddress = flag.String("b", "127.0.0.1:8000", "binding address (IP:port)")
 var debug = flag.Bool("d", false, "enable debugging mode, which disables security checks")
 var hostname = flag.String("n", "akas.io", "server hostname")
-var redirectTablePath = flag.String("r", "/etc/redirect.json", "redirect table path")
+var redirectTablePath = flag.String("r", "/etc/akasio.json", "redirect table path")
 
 // readRedirectTable returns the target URL the URI corresponds to
 func readRedirectTable(uri string) (string, error) {
