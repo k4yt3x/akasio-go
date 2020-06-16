@@ -66,11 +66,11 @@ func requestHandler(responseWriter http.ResponseWriter, request *http.Request) {
 	// print request information
 	zap.S().Infof("%s: %s%s", request.RemoteAddr, request.Host, request.URL)
 
-	// if hostname does not match, return 444
+	// if hostname does not match, return 401 unauthorized
 	// this prevents host spoofing
 	if request.Host != *hostname && !*debug {
-		zap.S().Infof("Responding %s with code 444", request.RemoteAddr)
-		http.Error(responseWriter, "", 444)
+		zap.S().Infof("Responding %s with code 401 (Unauthorized)", request.RemoteAddr)
+		http.Error(responseWriter, "401 Unauthorized", http.StatusUnauthorized)
 		return
 	}
 
@@ -79,16 +79,16 @@ func requestHandler(responseWriter http.ResponseWriter, request *http.Request) {
 
 	if targetURL == "" {
 		// return 404 if URL not found in redirect table
-		zap.S().Infof("Responding %s with code 404", request.RemoteAddr)
-		http.Error(responseWriter, "", 404)
+		zap.S().Infof("Responding %s with code 404 (Not Found)", request.RemoteAddr)
+		http.Error(responseWriter, "404 Not Found", http.StatusNotFound)
 	} else if err != nil {
 		// send 500 internal error if readRedirectTable returns an error
-		zap.S().Infof("Responding %s with code 500", request.RemoteAddr)
-		http.Error(responseWriter, "", 500)
+		zap.S().Infof("Responding %s with code 500 (Internal Server Error)", request.RemoteAddr)
+		http.Error(responseWriter, "500 Internal Server Error", http.StatusInternalServerError)
 	} else {
 		// send 301 response to client and redirect client to target URL
-		zap.S().Infof("Responding %s with code 301 to %s", request.RemoteAddr, targetURL)
-		http.Redirect(responseWriter, request, targetURL, 301)
+		zap.S().Infof("Responding %s with code 301 (Moved Permanently) to %s", request.RemoteAddr, targetURL)
+		http.Redirect(responseWriter, request, targetURL, http.StatusMovedPermanently)
 	}
 }
 
