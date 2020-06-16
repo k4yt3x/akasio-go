@@ -1,16 +1,22 @@
 # Akasio (Golang)
 
+## Description
+
 Akasio is a simple HTTP server that redirects traffic based on a JSON redirect table.
+
+If you own a domain and wish to self-host a URL-shortening service, then this is the right tool for you.
+
+Originally, Akasio is a backend server for website [akas.io](akas.io) (akas stands for "also known as") written in Python and Flask. After rewriting the server with Golang, I decided to open-source it for anyone else that might be interested by it. It is both very easy to deploy and very easy to maintain, thanks to Golang's handy single-binary release (let's not talk about its size here).
 
 ## Why Akasio
 
 > What can this be used for?
 
-Personally, I find sending long URLs like `https://gist.githubusercontent.com/k4yt3x/3b41a1a65f5d3087133e449793eb8858/raw` to people pretty annoying, since you'll either have to copy and paste the whole URL or type the whole URL out. URL shorteners like Akasio solve this issue. All that's needed to be done to send such a long URL is just to create a new mapping in the redirect table.
+Personally, I find sending long URLs like `https://gist.githubusercontent.com/k4yt3x/3b41a1a65f5d3087133e449793eb8858/raw` to people pretty annoying, since you'll either have to copy and paste the whole URL or type the whole URL out. URL shorteners like Akasio solve this issue. All that's needed to be done to send such a long URL is just to create a new mapping in the redirect table (akas.io/z).
 
 > What are Akasio's benefits compared to services like bit.ly?
 
-It is self-hosted, and the redirect table is just a JSON file. This gives the users lots of flexibilities. The JSON file on the server can be symbolic-linked from a local workstation, updated by a front-end webpage, generated from a program, and so on.
+Akasio is self-hosted, and the redirect table is just a JSON file. This gives the users lots of flexibilities. The JSON file on the server can be symbolic-linked from a local workstation, updated by a front-end webpage, generated from a program, and so on.
 
 ## Usages
 
