@@ -2,7 +2,7 @@
 Name: AKASIO
 Creator: K4YT3X
 Date Created: June 14, 2020
-Last Modified: June 15, 2020
+Last Modified: July 17, 2020
 
 Licensed under the GNU General Public License Version 3 (GNU GPL v3),
     available at: https://www.gnu.org/licenses/gpl-3.0.txt
@@ -51,11 +51,11 @@ func readRedirectTable(uri string) (string, error) {
 
 	// unmarshal JSON bytes into a map
 	var objmap map[string]json.RawMessage
-	err = json.Unmarshal(byteValue, &objmap)
+	json.Unmarshal(byteValue, &objmap)
 
 	// get target URL to redirect to from the redirect table
 	var targetURL string
-	err = json.Unmarshal(objmap[uri], &targetURL)
+	json.Unmarshal(objmap[uri], &targetURL)
 
 	return targetURL, nil
 }
