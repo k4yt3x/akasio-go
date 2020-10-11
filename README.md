@@ -63,7 +63,7 @@ The binary's usage is as following. You can also invoke `akasio -h` to see the u
 ```console
 Usages:
   -b string
-        binding address (IP:port) (default "127.0.0.1:8080")
+        binding address (IP:port) (default "127.0.0.1:8000")
   -d    enable debugging mode, which disables security checks
   -n string
         server hostname (default "akas.io")

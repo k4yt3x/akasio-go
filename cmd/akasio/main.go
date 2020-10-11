@@ -2,7 +2,7 @@
 Name: AKASIO
 Creator: K4YT3X
 Date Created: June 14, 2020
-Last Modified: July 17, 2020
+Last Modified: October 11, 2020
 
 Licensed under the GNU General Public License Version 3 (GNU GPL v3),
     available at: https://www.gnu.org/licenses/gpl-3.0.txt
@@ -107,7 +107,7 @@ func main() {
 	// let requestHandler handle all requests
 	http.HandleFunc("/", requestHandler)
 
-	// listen on port 8080
+	// listen on port 8000
 	// there should be a front-end server like Apache or Caddy in front of this server
 	err := http.ListenAndServe(*bindAddress, nil)
 
