@@ -80,16 +80,21 @@ The command below, for instance, launches Akasio, reads configurations from the 
 
 ### Running from Docker
 
-Akasio is also available on Docker Hub. Below is an example how you can run Akasio with Docker. Be sure to create the redirect table and change the redirect table's path in the command below.
+Akasio is also available on Docker Hub. Below is an example how you can run Akasio with Docker. Be sure to create the redirect table and change the redirect table's path in the command below. You'll also need to change the server's hostname.
 
 ```shell
-docker run --rm -it -p 8000:8000 -v $PWD/akasio.json:/etc/akasio.json k4yt3x/akasio-go:1.1.1
+docker run -it -p 8000:8000 -v $PWD/akasio.json:/etc/akasio.json -h akasio --name akasio k4yt3x/akasio-go:1.1.1 -n akas.io
 
 docker run -it \                                            # interactive
            -p 8000:8000 \                                   # bind container port to host's port 8000
            -v $PWD/akasio.json:/etc/akasio.json \           # bind mount host's akasio.json file under the current directory to container's /etc/akasio.json
-           k4yt3x/akasio-go:1.1.1                           # container name
+           -h akasio \                                      # set container hostname akasio
+           --name akasio \                                  # set container name akasio
+           k4yt3x/akasio-go:1.1.1 \                         # container name
+           -n akas.io                                       # listening hostnames
 ```
+
+After spinning the container up, you can verify that it's running correctly by making a query with `curl` or any other tool of your preference.
 
 ## Building From Source
 
