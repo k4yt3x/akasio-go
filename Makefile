@@ -1,5 +1,6 @@
 build:
 	go build -o bin/akasio ./cmd/akasio/main.go
+	strip -s bin/akasio
 
 run:
 	go run ./cmd/akasio/main.go
