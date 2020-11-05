@@ -24,7 +24,7 @@ import (
 
 const (
 	// Version defines the version number of this application
-	Version = "1.1.0"
+	Version = "1.1.1"
 )
 
 type sliceFlags []string
@@ -123,9 +123,16 @@ func main() {
 	flag.Var(&hostnames, "n", "server hostname, can be specified multiple times")
 	flag.Parse()
 
+	// if -v is specified, print version and exit
 	if *version == true {
 		fmt.Printf("Akasio version: %s\n", Version)
 		os.Exit(0)
+	}
+
+	// check if the redirect table file exists
+	if _, err := os.Stat(*redirectTablePath); os.IsNotExist(err) {
+		fmt.Fprintf(os.Stderr, "Error: Redirect table file %s does not exist\n", *redirectTablePath)
+		os.Exit(1)
 	}
 
 	// create new zap production logger and replace the global logger
