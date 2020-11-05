@@ -61,14 +61,21 @@ A typical stand-alone setup process will look like the following.
 The binary's usage is as following. You can also invoke `akasio -h` to see the usages.
 
 ```console
-Usages:
+Usage:
   -b string
         binding address (IP:port) (default "127.0.0.1:8000")
   -d    enable debugging mode, which disables security checks
-  -n string
-        server hostname (default "akas.io")
+  -n value
+        server hostname, can be specified multiple times
   -r string
         redirect table path (default "/etc/akasio.json")
+  -v    print Akasio version and exit
+```
+
+The command below, for instance, launches Akasio, reads configurations from the file `/etc/akasio.json`, and serves domains `akas.io` and `ffg.gg`.
+
+```shell
+/usr/local/bin/akasio -r /etc/akasio.json -n akas.io -n ffg.gg
 ```
 
 ## Building From Source
@@ -81,4 +88,4 @@ cd akasio-go
 make
 ```
 
-After building, you may also use `make install` to install `akasio` to `/usr/local/bin/akasio`.
+After building, you may also use `sudo make install` to install `akasio` to `/usr/local/bin/akasio`.
