@@ -1,8 +1,8 @@
 /*
-Name: AKASIO
+Name: Akasio (Golang)
 Creator: K4YT3X
 Date Created: June 14, 2020
-Last Modified: October 11, 2020
+Last Modified: November 5, 2020
 
 Licensed under the GNU General Public License Version 3 (GNU GPL v3),
     available at: https://www.gnu.org/licenses/gpl-3.0.txt
@@ -14,6 +14,7 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -23,14 +24,26 @@ import (
 
 const (
 	// Version defines the version number of this application
-	Version = "1.0.0"
+	Version = "1.1.0"
 )
+
+type sliceFlags []string
+
+func (i *sliceFlags) String() string {
+	return "nil"
+}
+
+func (i *sliceFlags) Set(value string) error {
+	*i = append(*i, value)
+	return nil
+}
 
 // define command line flags
 var bindAddress = flag.String("b", "127.0.0.1:8000", "binding address (IP:port)")
 var debug = flag.Bool("d", false, "enable debugging mode, which disables security checks")
-var hostname = flag.String("n", "akas.io", "server hostname")
+var hostnames sliceFlags
 var redirectTablePath = flag.String("r", "/etc/akasio.json", "redirect table path")
+var version = flag.Bool("v", false, "print Akasio version and exit")
 
 // readRedirectTable returns the target URL the URI corresponds to
 func readRedirectTable(uri string) (string, error) {
@@ -66,9 +79,23 @@ func requestHandler(responseWriter http.ResponseWriter, request *http.Request) {
 	// print request information
 	zap.S().Infof("%s: %s%s", request.RemoteAddr, request.Host, request.URL)
 
-	// if hostname does not match, return 401 unauthorized
+	// use the bind address as the hostname if it's not specified explicitly
+	if len(hostnames) == 0 {
+		hostnames.Set(*bindAddress)
+	}
+
+	// determine if the hostname is in the list of specified hostnames
+	var validHostname = false
+	for _, hostname := range hostnames {
+		if request.Host == hostname {
+			validHostname = true
+			break
+		}
+	}
+
+	// if hostname is not valid, return 401 unauthorized
 	// this prevents host spoofing
-	if request.Host != *hostname && !*debug {
+	if validHostname == false {
 		zap.S().Infof("Responding %s with code 401 (Unauthorized)", request.RemoteAddr)
 		http.Error(responseWriter, "401 Unauthorized", http.StatusUnauthorized)
 		return
@@ -93,7 +120,13 @@ func requestHandler(responseWriter http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
+	flag.Var(&hostnames, "n", "server hostname, can be specified multiple times")
 	flag.Parse()
+
+	if *version == true {
+		fmt.Printf("Akasio version: %s\n", Version)
+		os.Exit(0)
+	}
 
 	// create new zap production logger and replace the global logger
 	logger, _ := zap.NewDevelopment()
