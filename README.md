@@ -78,6 +78,19 @@ The command below, for instance, launches Akasio, reads configurations from the 
 /usr/local/bin/akasio -r /etc/akasio.json -n akas.io -n ffg.gg
 ```
 
+### Running from Docker
+
+Akasio is also available on Docker Hub. Below is an example how you can run Akasio with Docker. Be sure to create the redirect table and change the redirect table's path in the command below.
+
+```shell
+docker run --rm -it -p 8000:8000 -v $PWD/akasio.json:/etc/akasio.json k4yt3x/akasio-go:1.1.1
+
+docker run -it \                                            # interactive
+           -p 8000:8000 \                                   # bind container port to host's port 8000
+           -v $PWD/akasio.json:/etc/akasio.json \           # bind mount host's akasio.json file under the current directory to container's /etc/akasio.json
+           k4yt3x/akasio-go:1.1.1                           # container name
+```
+
 ## Building From Source
 
 The following commands will build Akasio binary at `bin/akasio`.

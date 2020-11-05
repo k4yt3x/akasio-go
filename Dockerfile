@@ -15,5 +15,8 @@ RUN apk add --no-cache --virtual .build-deps go make \
     && rm -rf /akasio-go \
     && apk del .build-deps
 
+# run the Akasio binary with user nobody and group nogroup by default
+USER nobody:nogroup
+
 WORKDIR /
-ENTRYPOINT ["/usr/local/bin/akasio", "-b", "0.0.0.0:80", "-r", "/etc/akasio.json"]
+ENTRYPOINT ["/usr/local/bin/akasio", "-b", "0.0.0.0:8000", "-r", "/etc/akasio.json"]
