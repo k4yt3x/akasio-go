@@ -28,8 +28,8 @@ Akasio redirects incoming requests based on what's called a "redirect table". Th
 
 ```json
 {
-    "/": "http://k4yt3x.com/akasio-go/",
-    "/g": "https://www.google.com",
+    "/": "http://k4yt3x.com/akasio-go",
+    "/g": "https://github.com/k4yt3x",
     "/k4yt3x": "https://k4yt3x.com"
 }
 ```
@@ -37,10 +37,18 @@ Akasio redirects incoming requests based on what's called a "redirect table". Th
 This example redirect table does the following mappings:
 
 - `/` to http://k4yt3x.com/akasio-go/
-- `/g` to https://www.google.com
+- `/g` to https://github.com/k4yt3x
 - `/k4yt3x` to https://k4yt3x.com
 
-Taking the `/g` mapping for example, when a user visits `https://yourwebsite.com/g`, the user will be redirected to https://www.google.com via a HTTP 301 (moved permanently) response.
+Taking the `/g` mapping for example, when a user visits `https://yourwebsite.com/g`, the user will be redirected to https://github.com/k4yt3x via a HTTP 301 (moved permanently) response.
+
+### URL Segments
+
+When Akasio receives a request, it chops the request's path into segments, looks up the first segment against the redirect table, and returns the target URL + the rest of the segments joined with `/`.
+
+For example, if the request URI is `/segment1/segment2/segment3`, the URI will be split into a string array with elements `segment1`, `segment2`, and `segment3`. Akasio will then lookup `/segment1` within the redirect table and return `redirected target URL + /segment2/segment3`. If a `/` is not present at the end of the target URL, one will be appended automatically.
+
+Continuing the example in the previous section, if the user visits `https://yourwebsite.com/g/akasio-go`, the user will be redirected to https://github.com/k4yt3x/akasio-go.
 
 ### Website Setup
 
