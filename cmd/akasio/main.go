@@ -2,11 +2,11 @@
 Name: Akasio (Golang)
 Creator: K4YT3X
 Date Created: June 14, 2020
-Last Modified: November 5, 2020
+Last Modified: January 29, 2021
 
 Licensed under the GNU General Public License Version 3 (GNU GPL v3),
     available at: https://www.gnu.org/licenses/gpl-3.0.txt
-(C) 2020 K4YT3X
+(C) 2020-2021 K4YT3X
 */
 
 package main
@@ -18,13 +18,14 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 
 	"go.uber.org/zap"
 )
 
 const (
 	// Version defines the version number of this application
-	Version = "1.1.1"
+	Version = "1.2.0"
 )
 
 type sliceFlags []string
@@ -101,8 +102,30 @@ func requestHandler(responseWriter http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	// get target URL from redirect table
-	targetURL, err := readRedirectTable(request.RequestURI)
+	// declare targetURL final redirect URL
+	// err for storing errors
+	var targetURL string
+	var err error
+
+	// split request URI into segments
+	urlSegments := strings.Split(request.RequestURI, "/")
+
+	if len(urlSegments) <= 2 {
+		// if no additional segments are found
+		targetURL, err = readRedirectTable("/" + urlSegments[1])
+
+	} else {
+		// if additional segments are found
+		targetURL, err = readRedirectTable("/" + urlSegments[1])
+
+		// if the last character is not "/", append "/"
+		if targetURL[len(targetURL)-1:] != "/" {
+			targetURL += "/"
+		}
+
+		// append the rest segments to the end of the target URL
+		targetURL += strings.Join(urlSegments[2:], "/")
+	}
 
 	if targetURL == "" {
 		// return 404 if URL not found in redirect table
